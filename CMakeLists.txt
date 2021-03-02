@@ -128,6 +128,20 @@ add_executable(husky_teleoperation_basic
 target_link_libraries(husky_teleoperation_basic
     ${catkin_LIBRARIES})
 
+add_executable(husky_teleoperation_smooth
+    src/husky_teleoperation_smooth.cpp
+    src/husky_teleop_smooth_main.cpp)
+
+target_link_libraries(husky_teleoperation_smooth
+    ${catkin_LIBRARIES})
+
+add_executable(husky_teleoperation_deadman
+    src/husky_teleoperation_deadman.cpp
+    src/husky_teleop_deadman_main.cpp)
+
+target_link_libraries(husky_teleoperation_deadman
+    ${catkin_LIBRARIES})
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/husky_teleop.cpp
