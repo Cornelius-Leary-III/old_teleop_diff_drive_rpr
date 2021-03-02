@@ -13,9 +13,9 @@
     <!-- Axes -->
     <param name="axis_linear" value="1" type="int"/>
     <param name="axis_angular" value="2" type="int"/>
-    <param name="scale_linear" value="0.75" type="double"/>
+    <param name="scale_linear" value="5" type="double"/>
     <param name="scale_angular" value="0.75" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleoperation_smooth" name="teleop_smooth"/>
+    <node pkg="husky_teleop" type="husky_teleoperation_turbo" name="teleop_turbo"/>
 </launch>

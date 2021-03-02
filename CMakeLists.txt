@@ -142,6 +142,13 @@ add_executable(husky_teleoperation_deadman
 target_link_libraries(husky_teleoperation_deadman
     ${catkin_LIBRARIES})
 
+add_executable(husky_teleoperation_turbo
+    src/husky_teleoperation_turbo.cpp
+    src/husky_teleop_turbo_main.cpp)
+
+target_link_libraries(husky_teleoperation_turbo
+    ${catkin_LIBRARIES})
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/husky_teleop.cpp
