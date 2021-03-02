@@ -117,9 +117,16 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
+
+add_executable(husky_teleoperation_basic
+    src/husky_teleoperation_basic.cpp
+    src/husky_teleop_basic_main.cpp)
+
+target_link_libraries(husky_teleoperation_basic
+    ${catkin_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
