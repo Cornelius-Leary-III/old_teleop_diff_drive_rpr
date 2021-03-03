@@ -1,7 +1,6 @@
 <launch>
     <!-- Husky Gazebo Launch File -->
     <include file="$(find husky_gazebo)/launch/husky_playpen.launch">
-
     </include>
 
     <!-- joy Node -->
@@ -13,9 +12,13 @@
     <!-- Axes -->
     <param name="axis_linear" value="1" type="int"/>
     <param name="axis_angular" value="2" type="int"/>
-    <param name="scale_linear" value="5" type="double"/>
+    <param name="scale_linear" value="1" type="double"/>
     <param name="scale_angular" value="0.75" type="double"/>
+    <param name="scale_turbo" value="1.5" type="double"/>
 
     <!-- Teleop Node -->
     <node pkg="husky_teleop" type="husky_teleoperation_turbo" name="teleop_turbo"/>
+
+    <!-- Teleop GUI Node -->
+    <node pkg="husky_teleop" type="husky_teleoperation_with_gui" name="teleop_gui"/>
 </launch>

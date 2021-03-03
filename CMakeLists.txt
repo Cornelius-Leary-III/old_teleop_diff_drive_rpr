@@ -12,11 +12,15 @@ find_package(catkin REQUIRED COMPONENTS
   joy
   roscpp
   sensor_msgs
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Test)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -104,10 +108,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include gui
 #  LIBRARIES husky_teleop
-#  CATKIN_DEPENDS geometry_msgs joy roscpp sensor_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS geometry_msgs joy roscpp sensor_msgs nav_msgs
+  DEPENDS Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Test
 )
 
 ###########
@@ -148,6 +152,26 @@ add_executable(husky_teleoperation_turbo
 
 target_link_libraries(husky_teleoperation_turbo
     ${catkin_LIBRARIES})
+
+set(UI_Sources
+    src/husky_teleop_gui_main.cpp
+    gui/DisplayValue.cpp
+    gui/DisplayValue.ui
+    gui/TeleopMainWindow.cpp
+    gui/TeleopMainWindow.ui)
+
+add_executable(husky_teleoperation_with_gui
+    include/husky_teleop/husky_teleoperation_gui.h
+    src/husky_teleoperation_gui.cpp
+    ${UI_Sources}
+    )
+
+target_link_libraries(husky_teleoperation_with_gui
+    ${catkin_LIBRARIES}
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Gui
+    Qt5::Test)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
