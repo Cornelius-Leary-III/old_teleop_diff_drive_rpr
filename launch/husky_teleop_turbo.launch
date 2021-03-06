@@ -18,7 +18,4 @@
 
     <!-- Teleop Node -->
     <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo"/>
-
-    <!-- Teleop GUI Node -->
-    <node pkg="husky_teleop" type="husky_teleop_with_gui" name="teleop_gui"/>
 </launch>
