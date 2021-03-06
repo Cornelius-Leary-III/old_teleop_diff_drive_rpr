@@ -1,4 +1,4 @@
-#include "gui/TeleopMainWindow.h"
+#include "gui/TelemetryMainWindow.h"
 
 #include <QApplication>
 
@@ -6,8 +6,8 @@ int main(int argc, char** argv)
 {
    QApplication husky_teleop_gui_app(argc, argv);
 
-   TeleopMainWindow teleop_gui_main_window(argc, argv);
-   teleop_gui_main_window.show();
+   TelemetryMainWindow telemetry_gui_main_window(argc, argv);
+   telemetry_gui_main_window.show();
 
    husky_teleop_gui_app.exec();
 

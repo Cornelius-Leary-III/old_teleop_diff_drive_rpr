@@ -157,16 +157,16 @@ set(UI_Sources
     src/husky_teleop_gui_ros_main.cpp
     gui/DisplayValue.cpp
     gui/DisplayValue.ui
-    gui/TeleopMainWindow.cpp
-    gui/TeleopMainWindow.ui)
+    gui/TelemetryMainWindow.cpp
+    gui/TelemetryMainWindow.ui)
 
-add_executable(husky_teleop_with_gui
-    include/husky_teleop/husky_teleop_subscriber_node.h
-    src/husky_teleop_subscriber_node.cpp
+add_executable(husky_teleop_with_telemetry_gui
+    include/husky_teleop/husky_teleop_telemetry_subscriber_node.h
+    src/husky_teleop_telemetry_subscriber_node.cpp
     ${UI_Sources}
     )
 
-target_link_libraries(husky_teleop_with_gui
+target_link_libraries(husky_teleop_with_telemetry_gui
     ${catkin_LIBRARIES}
     Qt5::Core
     Qt5::Widgets
