@@ -16,8 +16,14 @@ public:
    explicit DisplayValue(QWidget* parent = nullptr);
    ~DisplayValue();
 
+   void setFieldName(const QString& name);
+   void setFieldValue(const QString& value);
+
 private:
-   Ui::DisplayValue* ui;
+   Ui::DisplayValue* mUi;
+
+   QString mFieldName;
+   QString mFieldValue;
 };
 
 #endif // DISPLAYVALUE_H

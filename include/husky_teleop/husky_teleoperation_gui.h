@@ -7,19 +7,18 @@
 #include <nav_msgs/Odometry.h>
 
 #include <QObject>
+#include <QThread>
 
-class TeleopNodeGui : public QObject
+class TeleopNodeGui : public QThread
 {
    Q_OBJECT
 
 public:
-   TeleopNodeGui(ros::NodeHandle* node_handle);
+   TeleopNodeGui(int argc, char** argv, QObject* parent = nullptr);
 
-   virtual ~TeleopNodeGui()
-   {
-   }
+   virtual ~TeleopNodeGui();
 
-   void processMsgs();
+   void run() override;
 
    void twistMsgCallback(const geometry_msgs::Twist::ConstPtr& twist_msg);
 
@@ -28,34 +27,22 @@ public:
    void joyMsgCallback(const sensor_msgs::Joy::ConstPtr& joy_msg);
 
 signals:
+   void velocityCommanded(const geometry_msgs::Twist::ConstPtr& twist_msg);
+
+   void odometryMsgReceived(const nav_msgs::Odometry::ConstPtr& odometry_msg);
+
+   void joystickMsgReceived(const sensor_msgs::Joy::ConstPtr& joy_msg);
+
 public slots:
-
 private:
-   bool isDeadmanPressed();
-   bool isTurboModeActive();
+   ros::NodeHandle* mNodeHandle;
 
-   ros::NodeHandle mNodeHandle;
+   int    mArgC;
+   char** mArgV;
 
-   int    mLinearAxisIndex;
-   int    mAngularAxisIndex;
-   double mScaleLinear;
-   double mScaleAngular;
-
-   int  mDeadmanButtonIndex;
-   bool mIsDeadmanPressed;
-
-   int    mTurboButtonIndex;
-   bool   mIsTurboPressed;
-   double mScaleTurbo;
-
-   ros::Subscriber      mTwistSubscriber;
-   geometry_msgs::Twist mCurrentTwistMsg;
-
-   ros::Subscriber  mJoySubscriber;
-   sensor_msgs::Joy mCurrentJoyMsg;
-
-   ros::Subscriber    mOdometrySubscriber;
-   nav_msgs::Odometry mCurrentOdometryMsg;
+   ros::Subscriber mTwistSubscriber;
+   ros::Subscriber mJoySubscriber;
+   ros::Subscriber mOdometrySubscriber;
 };
 
 #endif // HUSKY_TELEOPERATION_GUI_H

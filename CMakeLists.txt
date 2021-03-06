@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(husky_teleop)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -154,7 +154,7 @@ target_link_libraries(husky_teleoperation_turbo
     ${catkin_LIBRARIES})
 
 set(UI_Sources
-    src/husky_teleop_gui_main.cpp
+    src/husky_teleop_gui_ros_main.cpp
     gui/DisplayValue.cpp
     gui/DisplayValue.ui
     gui/TeleopMainWindow.cpp
