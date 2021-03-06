@@ -1,11 +1,16 @@
 <launch>
+    <!-- Launch Arguments -->
+    <arg name="joy_dev_input" default="/dev/input/js0" />
+    <arg name="use_deadman" default="false" />
+    <arg name="use_turbo" default="false" />
+    <arg name="with_telemetry_gui" default="false" />
+
     <!-- Husky Gazebo Launch File -->
-    <include file="$(find husky_gazebo)/launch/husky_playpen.launch">
-    </include>
+    <include file="$(find husky_gazebo)/launch/husky_playpen.launch"/>
 
     <!-- joy Node -->
     <node respawn="true" pkg="joy" type="joy_node" name="husky_joy">
-        <param name="dev" type="string" value="/dev/input/js0"/>
+        <param name="dev" type="string" value="$(arg joy_dev_input)"/>
         <param name="deadzone" value="0.12"/>
     </node>
 
@@ -17,8 +22,15 @@
     <param name="scale_turbo" value="1.5" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo"/>
+    <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo">
+        <param name="turbo_allowed" type="bool" value="$(arg use_turbo)" />
+        <param name="deadman_required" type="bool" value="$(arg use_deadman)" />
+    </node>
 
     <!-- Teleop Telemetry GUI Node -->
-    <node pkg="husky_teleop" type="husky_teleop_telemetry_gui" name="teleop_telemetry_gui"/>
+    <node pkg="husky_teleop"
+          type="husky_teleop_telemetry_gui"
+          name="teleop_telemetry_gui"
+          if="$(arg with_telemetry_gui)" />
+
 </launch>

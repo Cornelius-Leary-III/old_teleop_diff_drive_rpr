@@ -27,9 +27,11 @@ private:
 
    int  mDeadmanButtonIndex;
    bool mIsDeadmanPressed;
+   bool mIsDeadmanRequired;
 
    int    mTurboButtonIndex;
    bool   mIsTurboPressed;
+   bool   mIsTurboAllowed;
    double mScaleTurbo;
 
    std::string          mTwistTopicName;

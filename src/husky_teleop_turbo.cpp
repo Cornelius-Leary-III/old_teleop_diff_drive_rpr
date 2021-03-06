@@ -1,13 +1,17 @@
 #include <husky_teleop/husky_teleop_turbo.h>
 
+#include <iostream>
+
 TeleopNodeTurbo::TeleopNodeTurbo(ros::NodeHandle* node_handle, const std::string& twist_topic)
    : mNodeHandle(*node_handle),
      mLinearAxisIndex(1),
      mAngularAxisIndex(2),
      mDeadmanButtonIndex(0),
      mIsDeadmanPressed(false),
+     mIsDeadmanRequired(false),
      mTurboButtonIndex(1),
      mIsTurboPressed(false),
+     mIsTurboAllowed(false),
      mScaleTurbo(0.0),
      mTwistTopicName(twist_topic),
      mCurrentTwistMsg(),
@@ -18,6 +22,12 @@ TeleopNodeTurbo::TeleopNodeTurbo(ros::NodeHandle* node_handle, const std::string
 
    mNodeHandle.param("scale_linear", mScaleLinear, mScaleLinear);
    mNodeHandle.param("scale_angular", mScaleAngular, mScaleAngular);
+
+   mNodeHandle.param("teleop_turbo/turbo_allowed", mIsTurboAllowed, mIsTurboAllowed);
+   mNodeHandle.param("teleop_turbo/deadman_required", mIsDeadmanRequired, mIsDeadmanRequired);
+
+   ROS_INFO_STREAM(__PRETTY_FUNCTION__ << "\tDeadman Required? " << mIsDeadmanRequired << std::endl);
+   ROS_INFO_STREAM(__PRETTY_FUNCTION__ << "\tTurbo Allowed? " << mIsTurboAllowed << std::endl);
 
    mScaleTurbo = 1.5;
 
@@ -67,12 +77,12 @@ bool TeleopNodeTurbo::isDeadmanPressed()
 {
    mIsDeadmanPressed = mCurrentJoyMsg.buttons.at(mDeadmanButtonIndex);
 
-   return mIsDeadmanPressed;
+   return !mIsDeadmanRequired || mIsDeadmanPressed;
 }
 
 bool TeleopNodeTurbo::isTurboModeActive()
 {
    mIsTurboPressed = mCurrentJoyMsg.buttons.at(mTurboButtonIndex);
 
-   return mIsTurboPressed;
+   return mIsTurboAllowed && mIsTurboPressed;
 }
