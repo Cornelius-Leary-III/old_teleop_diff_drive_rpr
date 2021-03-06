@@ -171,6 +171,9 @@ void TelemetryMainWindow::onOdometryMsgReceived(const nav_msgs::Odometry::ConstP
 
    if (odometry_msg != nullptr)
    {
+      updateStringValue(mDisplayFrameId, odometry_msg->header.frame_id);
+      updateDoubleValue(mDisplayTimeStamp, odometry_msg->header.stamp.toSec());
+
       updateDoubleValue(mDisplayPositionX, odometry_msg->pose.pose.position.x);
       updateDoubleValue(mDisplayPositionY, odometry_msg->pose.pose.position.y);
       updateDoubleValue(mDisplayPositionZ, odometry_msg->pose.pose.position.z);
@@ -211,6 +214,16 @@ void TelemetryMainWindow::updateBooleanValue(DisplayValue* widget, bool flag)
    if (widget != nullptr)
    {
       QString value_text = mBooleanTextMap.value(flag, "FALSE");
+
+      widget->setFieldValue(value_text);
+   }
+}
+
+void TelemetryMainWindow::updateStringValue(DisplayValue* widget, const std::string& value)
+{
+   if (widget != nullptr)
+   {
+      auto value_text = QString::fromStdString(value);
 
       widget->setFieldValue(value_text);
    }

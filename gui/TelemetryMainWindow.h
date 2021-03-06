@@ -1,6 +1,7 @@
 #ifndef TELEOPMAINWINDOW_H
 #define TELEOPMAINWINDOW_H
 
+#include <string>
 #include <QMainWindow>
 #include "DisplayValue.h"
 #include "ui_DisplayValue.h"
@@ -40,6 +41,7 @@ private:
 
    void updateDoubleValue(DisplayValue* widget, double value);
    void updateBooleanValue(DisplayValue* widget, bool value);
+   void updateStringValue(DisplayValue* widget, const std::string& value);
 
    QMap<bool, QString> mBooleanTextMap;
 

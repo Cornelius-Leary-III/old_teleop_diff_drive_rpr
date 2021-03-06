@@ -20,5 +20,5 @@
     <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo"/>
 
     <!-- Teleop Telemetry GUI Node -->
-    <node pkg="husky_teleop" type="husky_teleop_with_gui" name="teleop_telemetry_gui"/>
+    <node pkg="husky_teleop" type="husky_teleop_with_telemetry_gui" name="teleop_telemetry_gui"/>
 </launch>
