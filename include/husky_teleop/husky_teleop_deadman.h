@@ -1,5 +1,5 @@
-#ifndef HUSKY_TELEOPERATION_DEADMAN_H
-#define HUSKY_TELEOPERATION_DEADMAN_H
+#ifndef HUSKY_TELEOP_DEADMAN_H
+#define HUSKY_TELEOP_DEADMAN_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
@@ -32,4 +32,4 @@ private:
    ros::Subscriber mJoySubscriber;
 };
 
-#endif // HUSKY_TELEOPERATION_DEADMAN_H
+#endif // HUSKY_TELEOP_DEADMAN_H

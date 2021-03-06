@@ -1,4 +1,4 @@
-#include <husky_teleop/husky_teleoperation_smooth.h>
+#include <husky_teleop/husky_teleop_smooth.h>
 
 int main(int argc, char** argv)
 {

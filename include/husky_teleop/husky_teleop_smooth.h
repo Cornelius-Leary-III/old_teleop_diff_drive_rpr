@@ -1,14 +1,14 @@
-#ifndef HUSKY_TELEOPERATION_BASIC_H
-#define HUSKY_TELEOPERATION_BASIC_H
+#ifndef HUSKY_TELEOP_SMOOTH_H
+#define HUSKY_TELEOP_SMOOTH_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
 #include <geometry_msgs/Twist.h>
 
-class TeleopNode
+class SmoothTeleopNode
 {
 public:
-   TeleopNode(ros::NodeHandle* node_handle, const std::string& twist_topic);
+   SmoothTeleopNode(ros::NodeHandle* node_handle, const std::string& twist_topic);
 
    void processMsgs();
 
@@ -22,10 +22,11 @@ private:
    double mScaleLinear;
    double mScaleAngular;
 
-   std::string    mTwistTopicName;
-   ros::Publisher mTwistPublisher;
+   std::string          mTwistTopicName;
+   ros::Publisher       mTwistPublisher;
+   geometry_msgs::Twist mCurrentTwistMsg;
 
    ros::Subscriber mJoySubscriber;
 };
 
-#endif // HUSKY_TELEOPERATION_BASIC_H
+#endif // HUSKY_TELEOP_SMOOTH_H

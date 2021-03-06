@@ -125,32 +125,32 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(husky_teleoperation_basic
-    src/husky_teleoperation_basic.cpp
+add_executable(husky_teleop_basic
+    src/husky_teleop_basic.cpp
     src/husky_teleop_basic_main.cpp)
 
-target_link_libraries(husky_teleoperation_basic
+target_link_libraries(husky_teleop_basic
     ${catkin_LIBRARIES})
 
-add_executable(husky_teleoperation_smooth
-    src/husky_teleoperation_smooth.cpp
+add_executable(husky_teleop_smooth
+    src/husky_teleop_smooth.cpp
     src/husky_teleop_smooth_main.cpp)
 
-target_link_libraries(husky_teleoperation_smooth
+target_link_libraries(husky_teleop_smooth
     ${catkin_LIBRARIES})
 
-add_executable(husky_teleoperation_deadman
-    src/husky_teleoperation_deadman.cpp
+add_executable(husky_teleop_deadman
+    src/husky_teleop_deadman.cpp
     src/husky_teleop_deadman_main.cpp)
 
-target_link_libraries(husky_teleoperation_deadman
+target_link_libraries(husky_teleop_deadman
     ${catkin_LIBRARIES})
 
-add_executable(husky_teleoperation_turbo
-    src/husky_teleoperation_turbo.cpp
+add_executable(husky_teleop_turbo
+    src/husky_teleop_turbo.cpp
     src/husky_teleop_turbo_main.cpp)
 
-target_link_libraries(husky_teleoperation_turbo
+target_link_libraries(husky_teleop_turbo
     ${catkin_LIBRARIES})
 
 set(UI_Sources
@@ -160,13 +160,13 @@ set(UI_Sources
     gui/TeleopMainWindow.cpp
     gui/TeleopMainWindow.ui)
 
-add_executable(husky_teleoperation_with_gui
-    include/husky_teleop/husky_teleoperation_subscriber_node.h
-    src/husky_teleoperation_subscriber_node.cpp
+add_executable(husky_teleop_with_gui
+    include/husky_teleop/husky_teleop_subscriber_node.h
+    src/husky_teleop_subscriber_node.cpp
     ${UI_Sources}
     )
 
-target_link_libraries(husky_teleoperation_with_gui
+target_link_libraries(husky_teleop_with_gui
     ${catkin_LIBRARIES}
     Qt5::Core
     Qt5::Widgets

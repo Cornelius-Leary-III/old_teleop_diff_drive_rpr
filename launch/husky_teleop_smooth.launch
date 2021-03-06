@@ -17,5 +17,5 @@
     <param name="scale_angular" value="0.75" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleoperation_smooth" name="teleop_smooth"/>
+    <node pkg="husky_teleop" type="husky_teleop_smooth" name="teleop_smooth"/>
 </launch>

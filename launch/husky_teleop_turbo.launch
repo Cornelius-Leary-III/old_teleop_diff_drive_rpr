@@ -17,8 +17,8 @@
     <param name="scale_turbo" value="1.5" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleoperation_turbo" name="teleop_turbo"/>
+    <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo"/>
 
     <!-- Teleop GUI Node -->
-    <node pkg="husky_teleop" type="husky_teleoperation_with_gui" name="teleop_gui"/>
+    <node pkg="husky_teleop" type="husky_teleop_with_gui" name="teleop_gui"/>
 </launch>
