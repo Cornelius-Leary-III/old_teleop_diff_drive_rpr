@@ -161,8 +161,8 @@ set(UI_Sources
     gui/TeleopMainWindow.ui)
 
 add_executable(husky_teleoperation_with_gui
-    include/husky_teleop/husky_teleoperation_gui.h
-    src/husky_teleoperation_gui.cpp
+    include/husky_teleop/husky_teleoperation_subscriber_node.h
+    src/husky_teleoperation_subscriber_node.cpp
     ${UI_Sources}
     )
 

@@ -9,14 +9,14 @@
 #include <QObject>
 #include <QThread>
 
-class TeleopNodeGui : public QThread
+class TeleopSubscriberNode : public QThread
 {
    Q_OBJECT
 
 public:
-   TeleopNodeGui(int argc, char** argv, QObject* parent = nullptr);
+   TeleopSubscriberNode(int argc, char** argv, QObject* parent = nullptr);
 
-   virtual ~TeleopNodeGui();
+   virtual ~TeleopSubscriberNode();
 
    void run() override;
 

@@ -1,4 +1,4 @@
-#include "husky_teleop/husky_teleoperation_gui.h"
+#include "husky_teleop/husky_teleoperation_subscriber_node.h"
 #include "gui/TeleopMainWindow.h"
 
 #include <QApplication>

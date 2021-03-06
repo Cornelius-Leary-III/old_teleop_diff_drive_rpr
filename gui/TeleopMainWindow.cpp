@@ -9,7 +9,7 @@ TeleopMainWindow::TeleopMainWindow(int argc, char** argv, QWidget* parent)
    : QMainWindow(parent),
      mArgC(argc),
      mArgV(argv),
-     mGuiNode(new TeleopNodeGui(argc, argv)),
+     mTelemetrySubscriberNode(new TeleopSubscriberNode(argc, argv)),
      mLinearAxisIndex(1),
      mAngularAxisIndex(2),
      mDeadmanButtonIndex(0),
@@ -40,20 +40,20 @@ TeleopMainWindow::TeleopMainWindow(int argc, char** argv, QWidget* parent)
 {
    mUi->setupUi(this);
 
-   connect(mGuiNode,
-           &TeleopNodeGui::velocityCommanded,
+   connect(mTelemetrySubscriberNode,
+           &TeleopSubscriberNode::velocityCommanded,
            this,
            &TeleopMainWindow::onVelocityCommanded,
            Qt::ConnectionType::QueuedConnection);
 
-   connect(mGuiNode,
-           &TeleopNodeGui::odometryMsgReceived,
+   connect(mTelemetrySubscriberNode,
+           &TeleopSubscriberNode::odometryMsgReceived,
            this,
            &TeleopMainWindow::onOdometryMsgReceived,
            Qt::ConnectionType::QueuedConnection);
 
-   connect(mGuiNode,
-           &TeleopNodeGui::joystickMsgReceived,
+   connect(mTelemetrySubscriberNode,
+           &TeleopSubscriberNode::joystickMsgReceived,
            this,
            &TeleopMainWindow::onJoystickMsgReceived,
            Qt::ConnectionType::QueuedConnection);
@@ -131,7 +131,7 @@ TeleopMainWindow::TeleopMainWindow(int argc, char** argv, QWidget* parent)
    mBooleanTextMap.insert(false, "FALSE");
    mBooleanTextMap.insert(true, "TRUE");
 
-   mGuiNode->start();
+   mTelemetrySubscriberNode->start();
 }
 
 TeleopMainWindow::~TeleopMainWindow()
@@ -142,10 +142,10 @@ TeleopMainWindow::~TeleopMainWindow()
       mUi = nullptr;
    }
 
-   if (mGuiNode != nullptr)
+   if (mTelemetrySubscriberNode != nullptr)
    {
-      mGuiNode->quit();
-      mGuiNode->wait();
+      mTelemetrySubscriberNode->quit();
+      mTelemetrySubscriberNode->wait();
    }
 }
 
