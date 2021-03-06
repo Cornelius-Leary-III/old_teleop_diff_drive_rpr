@@ -1,10 +1,6 @@
-#include "husky_teleop/husky_teleoperation_subscriber_node.h"
 #include "gui/TeleopMainWindow.h"
 
 #include <QApplication>
-#include <QThread>
-#include <QObject>
-#include <QtCore>
 
 int main(int argc, char** argv)
 {
