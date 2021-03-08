@@ -28,7 +28,7 @@ DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_h
      mCurrentTwistMsg(),
      mCurrentJoyMsg()
 {
-   std::string node_name("teleop_turbo/");
+   std::string node_name("teleop_driving_wheel_controller/");
 
    mNodeHandle.param(node_name + "axis_throttle", mThrottleAxisIndex, mThrottleAxisIndex);
    mNodeHandle.param(node_name + "axis_steering", mSteeringAxisIndex, mSteeringAxisIndex);
