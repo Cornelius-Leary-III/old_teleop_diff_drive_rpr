@@ -173,6 +173,13 @@ target_link_libraries(husky_teleop_telemetry_gui
     Qt5::Gui
     Qt5::Test)
 
+add_executable(husky_teleop_driving_wheel_controller
+    src/husky_teleop_driving_wheel_controller.cpp
+    src/husky_teleop_driving_wheel_controller_main.cpp)
+
+target_link_libraries(husky_teleop_driving_wheel_controller
+    ${catkin_LIBRARIES})
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/husky_teleop.cpp
