@@ -16,7 +16,10 @@
     </node>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleop_driving_wheel_controller" name="teleop_turbo">
+    <node pkg="husky_teleop"
+          type="husky_teleop_driving_wheel_controller"
+          name="teleop_driving_wheel_controller">
+
         <param name="axis_steering" value="0" type="int"/>
         <param name="axis_brake_pedal" value="3" type="int"/>
         <param name="axis_throttle" value="2" type="int"/>

@@ -20,6 +20,7 @@ private:
    double readThrottle();
    double readBrake();
    double readSteeringAngle();
+   double readHardwareInputDevice(int device_index);
 
    bool isDeadmanPressed();
    bool isTurboModeActive();

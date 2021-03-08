@@ -4,6 +4,9 @@
 
 namespace Teleop
 {
+static const double gHIDMaxMagnitude = 1.0;
+static const double gHIDValueRange   = 2.0 * gHIDMaxMagnitude;
+
 DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_handle,
                                                        const std::string& twist_topic)
    : mNodeHandle(*node_handle),
@@ -25,23 +28,23 @@ DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_h
      mCurrentTwistMsg(),
      mCurrentJoyMsg()
 {
-   mNodeHandle.param("teleop_turbo/axis_throttle", mThrottleAxisIndex, mThrottleAxisIndex);
-   mNodeHandle.param("teleop_turbo/axis_steering", mSteeringAxisIndex, mSteeringAxisIndex);
-   mNodeHandle.param("teleop_turbo/axis_brake_pedal", mBrakeAxisIndex, mBrakeAxisIndex);
+   std::string node_name("teleop_turbo/");
 
-   mNodeHandle.param("teleop_turbo/scale_linear", mScaleLinear, mScaleLinear);
-   mNodeHandle.param("teleop_turbo/scale_angular", mScaleSteering, mScaleSteering);
-   mNodeHandle.param("teleop_turbo/scale_turbo", mScaleTurbo, mScaleTurbo);
+   mNodeHandle.param(node_name + "axis_throttle", mThrottleAxisIndex, mThrottleAxisIndex);
+   mNodeHandle.param(node_name + "axis_steering", mSteeringAxisIndex, mSteeringAxisIndex);
+   mNodeHandle.param(node_name + "axis_brake_pedal", mBrakeAxisIndex, mBrakeAxisIndex);
 
-   mNodeHandle.param("teleop_turbo/axis_deadman", mDeadmanPedalAxisIndex, mDeadmanPedalAxisIndex);
-   mNodeHandle.param("teleop_turbo/turbo_button_index", mTurboButtonIndex, mTurboButtonIndex);
-   mNodeHandle.param("teleop_turbo/turbo_allowed", mIsTurboAllowed, mIsTurboAllowed);
-   mNodeHandle.param("teleop_turbo/deadman_required", mIsDeadmanRequired, mIsDeadmanRequired);
+   mNodeHandle.param(node_name + "scale_linear", mScaleLinear, mScaleLinear);
+   mNodeHandle.param(node_name + "scale_angular", mScaleSteering, mScaleSteering);
+   mNodeHandle.param(node_name + "scale_turbo", mScaleTurbo, mScaleTurbo);
 
-   std::cout << __PRETTY_FUNCTION__ << "\tDeadman Required? " << mIsDeadmanRequired << std::endl;
-   std::cout << __PRETTY_FUNCTION__ << "\tTurbo Allowed? " << mIsTurboAllowed << std::endl;
+   mNodeHandle.param(node_name + "axis_deadman", mDeadmanPedalAxisIndex, mDeadmanPedalAxisIndex);
+   mNodeHandle.param(node_name + "turbo_button_index", mTurboButtonIndex, mTurboButtonIndex);
+   mNodeHandle.param(node_name + "turbo_allowed", mIsTurboAllowed, mIsTurboAllowed);
+   mNodeHandle.param(node_name + "deadman_required", mIsDeadmanRequired, mIsDeadmanRequired);
 
    mTwistPublisher = mNodeHandle.advertise<geometry_msgs::Twist>(mTwistTopicName, 1);
+
    mJoySubscriber =
       mNodeHandle.subscribe("joy", 10, &DrivingWheelControllerNode::joyMsgCallback, this);
 
@@ -101,21 +104,9 @@ bool DrivingWheelControllerNode::isDeadmanPressed()
       return true;
    }
 
-   bool is_deadman_pressed = false;
+   double deadman_value = readHardwareInputDevice(mDeadmanPedalAxisIndex);
 
-   if (isAxisIndexValid(mDeadmanPedalAxisIndex))
-   {
-      double deadman_raw   = mCurrentJoyMsg.axes.at(mDeadmanPedalAxisIndex);
-      double deadman_value = (deadman_raw + 1.0) / 2.0;
-
-      is_deadman_pressed = deadman_value > mDeadmanActiveThreshold;
-
-      std::cout << __PRETTY_FUNCTION__ << "\tdeadman raw:        " << deadman_raw << "\n";
-      std::cout << __PRETTY_FUNCTION__ << "\tdeadman processed:  " << deadman_value << "\n";
-      std::cout << __PRETTY_FUNCTION__ << "\tis deadman pressed? " << is_deadman_pressed << "\n";
-   }
-
-   return is_deadman_pressed;
+   return deadman_value > mDeadmanActiveThreshold;
 }
 
 bool DrivingWheelControllerNode::isTurboModeActive()
@@ -130,55 +121,41 @@ bool DrivingWheelControllerNode::isTurboModeActive()
 
 double DrivingWheelControllerNode::readThrottle()
 {
-   double throttle_value = 0.0;
-
-   if (!isAxisIndexValid(mThrottleAxisIndex))
-   {
-      return throttle_value;
-   }
-
-   double throttle_raw = mCurrentJoyMsg.axes.at(mThrottleAxisIndex);
-   throttle_value      = (throttle_raw + 1.0) / 2.0;
-
-   std::cout << __PRETTY_FUNCTION__ << "\tthrottle raw:        " << throttle_raw << "\n";
-   std::cout << __PRETTY_FUNCTION__ << "\tthrottle processed:  " << throttle_value << "\n";
+   double throttle_value = readHardwareInputDevice(mThrottleAxisIndex);
 
    return throttle_value;
 }
 
 double DrivingWheelControllerNode::readBrake()
 {
-   double brake_value = 0.0;
-
-   if (!isAxisIndexValid(mBrakeAxisIndex))
-   {
-      return brake_value;
-   }
-
-   double brake_raw = mCurrentJoyMsg.axes.at(mBrakeAxisIndex);
-   brake_value      = (brake_raw + 1.0) / 2.0;
+   double brake_value = readHardwareInputDevice(mBrakeAxisIndex);
 
    mIsBrakeApplied = brake_value > mBrakeActiveThreshold;
-
-   std::cout << __PRETTY_FUNCTION__ << "\tbrake raw:        " << brake_raw << "\n";
-   std::cout << __PRETTY_FUNCTION__ << "\tbrake processed:  " << brake_value << "\n";
-   std::cout << __PRETTY_FUNCTION__ << "\tis brake pressed? " << mIsBrakeApplied << "\n";
 
    return brake_value;
 }
 
 double DrivingWheelControllerNode::readSteeringAngle()
 {
-   double steering_angle_value = 0.0;
-
    if (!isAxisIndexValid(mSteeringAxisIndex))
    {
-      return steering_angle_value;
+      return 0.0;
    }
 
-   double steering_angle_raw = mCurrentJoyMsg.axes.at(mSteeringAxisIndex);
+   return mCurrentJoyMsg.axes.at(mSteeringAxisIndex);
+}
 
-   return steering_angle_raw;
+double DrivingWheelControllerNode::readHardwareInputDevice(int device_index)
+{
+   if (!isAxisIndexValid(device_index))
+   {
+      return 0.0;
+   }
+
+   double raw_value      = mCurrentJoyMsg.axes.at(device_index);
+   double adjusted_value = (raw_value + gHIDMaxMagnitude) / gHIDValueRange;
+
+   return adjusted_value;
 }
 
 bool DrivingWheelControllerNode::isAxisIndexValid(int index)
