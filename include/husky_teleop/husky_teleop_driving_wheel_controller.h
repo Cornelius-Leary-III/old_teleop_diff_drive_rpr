@@ -10,7 +10,7 @@ namespace Teleop
 class DrivingWheelControllerNode
 {
 public:
-   DrivingWheelControllerNode(ros::NodeHandle* node_handle, const std::string& twist_topic);
+   explicit DrivingWheelControllerNode(ros::NodeHandle* node_handle);
 
    void processMsgs();
 
@@ -46,7 +46,6 @@ private:
    bool   mIsTurboAllowed;
    double mScaleTurbo;
 
-   std::string          mTwistTopicName;
    ros::Publisher       mTwistPublisher;
    geometry_msgs::Twist mCurrentTwistMsg;
 

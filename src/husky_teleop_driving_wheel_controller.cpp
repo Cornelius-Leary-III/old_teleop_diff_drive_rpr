@@ -11,8 +11,7 @@ const double gDefaultTurboScale      = 1.5;
 const double gBrakeActiveThreshold   = 0.2;
 const double gDeadmanActiveThreshold = 0.0;
 
-DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_handle,
-                                                       const std::string& twist_topic)
+DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle* node_handle)
    : mNodeHandle(*node_handle),
      mSteeringAxisIndex(0),
      mDeadmanPedalAxisIndex(1),
@@ -24,7 +23,6 @@ DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_h
      mIsTurboPressed(false),
      mIsTurboAllowed(false),
      mScaleTurbo(gDefaultTurboScale),
-     mTwistTopicName(twist_topic),
      mCurrentTwistMsg(),
      mCurrentJoyMsg()
 {
@@ -43,7 +41,7 @@ DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_h
    mNodeHandle.param(node_name + "turbo_allowed", mIsTurboAllowed, mIsTurboAllowed);
    mNodeHandle.param(node_name + "deadman_required", mIsDeadmanRequired, mIsDeadmanRequired);
 
-   mTwistPublisher = mNodeHandle.advertise<geometry_msgs::Twist>(mTwistTopicName, 1);
+   mTwistPublisher = mNodeHandle.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 
    mJoySubscriber =
       mNodeHandle.subscribe("joy", 10, &DrivingWheelControllerNode::joyMsgCallback, this);
