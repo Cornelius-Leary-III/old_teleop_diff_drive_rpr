@@ -19,7 +19,7 @@ TelemetrySubscriberNode::~TelemetrySubscriberNode()
 
 void TelemetrySubscriberNode::run()
 {
-   ros::init(mArgC, mArgV, "husky_teleop_gui");
+   ros::init(mArgC, mArgV, "telemetry_subscriber_node");
 
    mNodeHandle = new ros::NodeHandle();
 

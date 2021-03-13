@@ -154,7 +154,7 @@ target_link_libraries(husky_teleop_turbo
     ${catkin_LIBRARIES})
 
 set(UI_Sources
-    src/husky_teleop_gui_ros_main.cpp
+    src/husky_teleop_telemetry_subscriber_node_main.cpp
     gui/DisplayValue.cpp
     gui/DisplayValue.ui
     gui/TelemetryMainWindow.cpp

@@ -21,16 +21,12 @@ public:
    void run() override;
 
    void twistMsgCallback(const geometry_msgs::Twist::ConstPtr& twist_msg);
-
    void odomMsgCallback(const nav_msgs::Odometry::ConstPtr& odometry_msg);
-
    void joyMsgCallback(const sensor_msgs::Joy::ConstPtr& joy_msg);
 
 signals:
    void velocityCommanded(const geometry_msgs::Twist::ConstPtr& twist_msg);
-
    void odometryMsgReceived(const nav_msgs::Odometry::ConstPtr& odometry_msg);
-
    void joystickMsgReceived(const sensor_msgs::Joy::ConstPtr& joy_msg);
 
 public slots:
