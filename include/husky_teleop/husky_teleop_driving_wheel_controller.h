@@ -30,21 +30,17 @@ private:
 
    ros::NodeHandle mNodeHandle;
 
-   int    mThrottleAxisIndex;
-   int    mBrakeAxisIndex;
    int    mSteeringAxisIndex;
-   double mScaleLinear;
    double mScaleSteering;
 
-   int    mDeadmanPedalAxisIndex;
-   double mDeadmanActiveThreshold;
-   double mThrottleActiveThreshold;
-   double mBrakeActiveThreshold;
-   bool   mIsBrakeApplied;
-
-   bool mIsDeadmanPressed;
+   int  mDeadmanPedalAxisIndex;
    bool mIsDeadmanRequired;
 
+   int  mBrakeAxisIndex;
+   bool mIsBrakeApplied;
+
+   double mScaleLinear;
+   int    mThrottleAxisIndex;
    int    mTurboButtonIndex;
    bool   mIsTurboPressed;
    bool   mIsTurboAllowed;

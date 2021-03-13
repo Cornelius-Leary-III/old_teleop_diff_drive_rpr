@@ -4,27 +4,26 @@
 
 namespace Teleop
 {
-const double gHIDMaxMagnitude  = 1.0;
-const double gHIDValueRange    = 2.0 * gHIDMaxMagnitude;
-const double gTwistPublishRate = 10.0;
+const double gHIDMaxMagnitude        = 1.0;
+const double gHIDValueRange          = 2.0 * gHIDMaxMagnitude;
+const double gTwistPublishRate       = 10.0;
+const double gDefaultTurboScale      = 1.5;
+const double gBrakeActiveThreshold   = 0.2;
+const double gDeadmanActiveThreshold = 0.0;
 
 DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_handle,
                                                        const std::string& twist_topic)
    : mNodeHandle(*node_handle),
-     mThrottleAxisIndex(2),
-     mBrakeAxisIndex(3),
      mSteeringAxisIndex(0),
      mDeadmanPedalAxisIndex(1),
-     mDeadmanActiveThreshold(0),
-     mThrottleActiveThreshold(0.2),
-     mBrakeActiveThreshold(0.2),
-     mIsBrakeApplied(false),
-     mIsDeadmanPressed(false),
      mIsDeadmanRequired(false),
+     mBrakeAxisIndex(3),
+     mIsBrakeApplied(false),
+     mThrottleAxisIndex(2),
      mTurboButtonIndex(1),
      mIsTurboPressed(false),
      mIsTurboAllowed(false),
-     mScaleTurbo(1.5),
+     mScaleTurbo(gDefaultTurboScale),
      mTwistTopicName(twist_topic),
      mCurrentTwistMsg(),
      mCurrentJoyMsg()
@@ -69,7 +68,7 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
    mCurrentTwistMsg.angular.z = mScaleSteering * current_steering;
 
    double current_brake = readBrake();
-   if (current_brake > mBrakeActiveThreshold)
+   if (current_brake > gBrakeActiveThreshold)
    {
       // deceleration?
       mCurrentTwistMsg.linear.x *= (1.0 - current_brake);
@@ -108,7 +107,7 @@ bool DrivingWheelControllerNode::isDeadmanPressed()
 
    double deadman_value = readHardwareInputDevice(mDeadmanPedalAxisIndex);
 
-   return deadman_value > mDeadmanActiveThreshold;
+   return deadman_value > gDeadmanActiveThreshold;
 }
 
 bool DrivingWheelControllerNode::isTurboModeActive()
