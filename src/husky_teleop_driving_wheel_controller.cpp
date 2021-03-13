@@ -4,8 +4,9 @@
 
 namespace Teleop
 {
-static const double gHIDMaxMagnitude = 1.0;
-static const double gHIDValueRange   = 2.0 * gHIDMaxMagnitude;
+const double gHIDMaxMagnitude  = 1.0;
+const double gHIDValueRange    = 2.0 * gHIDMaxMagnitude;
+const double gTwistPublishRate = 10.0;
 
 DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle*   node_handle,
                                                        const std::string& twist_topic)
@@ -64,11 +65,11 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
       return;
    }
 
-   double current_brake       = readBrake();
    double current_steering    = readSteeringAngle();
    mCurrentTwistMsg.angular.z = mScaleSteering * current_steering;
 
-   if (mIsBrakeApplied)
+   double current_brake = readBrake();
+   if (current_brake > mBrakeActiveThreshold)
    {
       // deceleration?
       mCurrentTwistMsg.linear.x *= (1.0 - current_brake);
@@ -86,14 +87,15 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
 
 void DrivingWheelControllerNode::processMsgs()
 {
-   ros::Rate sleep_timer(10.0);
+   ros::Rate sleep_timer(gTwistPublishRate);
 
    while (ros::ok())
    {
       ros::spinOnce();
-      sleep_timer.sleep();
 
       mTwistPublisher.publish(mCurrentTwistMsg);
+
+      sleep_timer.sleep();
    }
 }
 
@@ -115,24 +117,22 @@ bool DrivingWheelControllerNode::isTurboModeActive()
    {
       mIsTurboPressed = mCurrentJoyMsg.buttons.at(mTurboButtonIndex);
    }
+   else
+   {
+      mIsTurboPressed = false;
+   }
 
    return mIsTurboAllowed && mIsTurboPressed;
 }
 
 double DrivingWheelControllerNode::readThrottle()
 {
-   double throttle_value = readHardwareInputDevice(mThrottleAxisIndex);
-
-   return throttle_value;
+   return readHardwareInputDevice(mThrottleAxisIndex);
 }
 
 double DrivingWheelControllerNode::readBrake()
 {
-   double brake_value = readHardwareInputDevice(mBrakeAxisIndex);
-
-   mIsBrakeApplied = brake_value > mBrakeActiveThreshold;
-
-   return brake_value;
+   return readHardwareInputDevice(mBrakeAxisIndex);
 }
 
 double DrivingWheelControllerNode::readSteeringAngle()
