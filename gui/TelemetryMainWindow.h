@@ -51,8 +51,9 @@ private:
    TelemetrySubscriberNode* mTelemetrySubscriberNode;
 
    int mLinearAxisIndex;
+   int mBrakeAxisIndex;
    int mAngularAxisIndex;
-   int mDeadmanButtonIndex;
+   int mDeadmanAxisIndex;
    int mTurboButtonIndex;
 
    geometry_msgs::Twist mCurrentTwistMsg;
@@ -65,8 +66,9 @@ private:
    DisplayValue* mDisplayFrameId;
 
    DisplayValue* mDisplayLinearAxis;
+   DisplayValue* mDisplayBrakeAxis;
    DisplayValue* mDisplayAngularAxis;
-   DisplayValue* mDisplayDeadmanButton;
+   DisplayValue* mDisplayDeadmanAxis;
    DisplayValue* mDisplayTurboButton;
 
    DisplayValue* mDisplayPositionX;

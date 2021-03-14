@@ -18,6 +18,10 @@ DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle* node_han
      mIsDeadmanRequired(false),
      mBrakeAxisIndex(3),
      mIsBrakeApplied(false),
+     mCurrentDrivingGear(DrivingGearType::FORWARD),
+     mGearScalingFactor(1.0),
+     mForwardGearButtonIndex(0),
+     mReverseGearButtonIndex(3),
      mThrottleAxisIndex(2),
      mTurboButtonIndex(1),
      mIsTurboPressed(false),
@@ -62,19 +66,21 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
       return;
    }
 
-   double current_steering    = readSteeringAngle();
-   mCurrentTwistMsg.angular.z = mScaleSteering * current_steering;
+   processGearButtonStates();
 
    double current_brake = readBrake();
    if (current_brake > gBrakeActiveThreshold)
    {
       // deceleration?
-      mCurrentTwistMsg.linear.x *= (1.0 - current_brake);
+      mCurrentTwistMsg.linear.x *= (1.0 - current_brake) * mGearScalingFactor;
       return;
    }
 
+   double current_steering    = readSteeringAngle();
+   mCurrentTwistMsg.angular.z = mScaleSteering * current_steering /** mGearScalingFactor*/;
+
    double current_throttle   = readThrottle();
-   mCurrentTwistMsg.linear.x = mScaleLinear * current_throttle;
+   mCurrentTwistMsg.linear.x = mScaleLinear * current_throttle * mGearScalingFactor;
 
    if (isTurboModeActive())
    {
@@ -122,6 +128,75 @@ bool DrivingWheelControllerNode::isTurboModeActive()
    return mIsTurboAllowed && mIsTurboPressed;
 }
 
+void DrivingWheelControllerNode::processGearButtonStates()
+{
+   bool valid =
+      isButtonIndexValid(mForwardGearButtonIndex) && isButtonIndexValid(mReverseGearButtonIndex);
+
+   if (!valid)
+   {
+      mCurrentDrivingGear = DrivingGearType::UNKNOWN_INVALID;
+      return;
+   }
+
+   bool current_fwd_gear_button = mCurrentJoyMsg.buttons.at(mForwardGearButtonIndex);
+   bool current_rev_gear_button = mCurrentJoyMsg.buttons.at(mReverseGearButtonIndex);
+
+   switch (mCurrentDrivingGear)
+   {
+      case DrivingGearType::UNKNOWN_INVALID:
+      {
+         if (!current_fwd_gear_button && current_fwd_gear_button != mCurrentGearButtonForward)
+         {
+            mCurrentDrivingGear = DrivingGearType::FORWARD;
+         }
+         else if (!current_rev_gear_button && current_rev_gear_button != mCurrentGearButtonReverse)
+         {
+            mCurrentDrivingGear = DrivingGearType::REVERSE;
+         }
+         break;
+      }
+      case DrivingGearType::FORWARD:
+      {
+         if (!current_rev_gear_button && current_rev_gear_button != mCurrentGearButtonReverse)
+         {
+            mCurrentDrivingGear = DrivingGearType::REVERSE;
+         }
+         break;
+      }
+      case DrivingGearType::REVERSE:
+      {
+         if (!current_fwd_gear_button && current_fwd_gear_button != mCurrentGearButtonForward)
+         {
+            mCurrentDrivingGear = DrivingGearType::FORWARD;
+         }
+         break;
+      }
+   }
+
+   mCurrentGearButtonForward = current_fwd_gear_button;
+   mCurrentGearButtonReverse = current_rev_gear_button;
+
+   switch (mCurrentDrivingGear)
+   {
+      case DrivingGearType::UNKNOWN_INVALID:
+      {
+         mGearScalingFactor = 0.0;
+         break;
+      }
+      case DrivingGearType::FORWARD:
+      {
+         mGearScalingFactor = 1.0;
+         break;
+      }
+      case DrivingGearType::REVERSE:
+      {
+         mGearScalingFactor = -1.0;
+         break;
+      }
+   }
+}
+
 double DrivingWheelControllerNode::readThrottle()
 {
    return readHardwareInputDevice(mThrottleAxisIndex);
@@ -157,11 +232,11 @@ double DrivingWheelControllerNode::readHardwareInputDevice(int device_index)
 
 bool DrivingWheelControllerNode::isAxisIndexValid(int index)
 {
-   return static_cast<size_t>(index) <= mCurrentJoyMsg.axes.size();
+   return static_cast<size_t>(index) < mCurrentJoyMsg.axes.size();
 }
 
 bool DrivingWheelControllerNode::isButtonIndexValid(int index)
 {
-   return static_cast<size_t>(index) <= mCurrentJoyMsg.buttons.size();
+   return static_cast<size_t>(index) < mCurrentJoyMsg.buttons.size();
 }
 } // namespace Teleop

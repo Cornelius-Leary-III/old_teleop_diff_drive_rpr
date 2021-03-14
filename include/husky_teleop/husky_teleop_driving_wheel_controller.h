@@ -28,6 +28,15 @@ private:
    bool isAxisIndexValid(int index);
    bool isButtonIndexValid(int index);
 
+   void processGearButtonStates();
+
+   enum DrivingGearType
+   {
+      UNKNOWN_INVALID = 0,
+      FORWARD         = 1,
+      REVERSE         = 2
+   };
+
    ros::NodeHandle mNodeHandle;
 
    int    mSteeringAxisIndex;
@@ -38,6 +47,13 @@ private:
 
    int  mBrakeAxisIndex;
    bool mIsBrakeApplied;
+
+   DrivingGearType mCurrentDrivingGear;
+   int             mGearScalingFactor;
+   bool            mCurrentGearButtonForward;
+   bool            mCurrentGearButtonReverse;
+   int             mForwardGearButtonIndex;
+   int             mReverseGearButtonIndex;
 
    double mScaleLinear;
    int    mThrottleAxisIndex;

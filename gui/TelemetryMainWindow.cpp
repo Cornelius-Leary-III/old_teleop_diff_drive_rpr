@@ -11,8 +11,9 @@ TelemetryMainWindow::TelemetryMainWindow(int argc, char** argv, QWidget* parent)
      mArgV(argv),
      mTelemetrySubscriberNode(new TelemetrySubscriberNode(argc, argv)),
      mLinearAxisIndex(2),
+     mBrakeAxisIndex(3),
      mAngularAxisIndex(0),
-     mDeadmanButtonIndex(1),
+     mDeadmanAxisIndex(1),
      mTurboButtonIndex(1),
      mCurrentTwistMsg(),
      mCurrentJoyMsg(),
@@ -22,7 +23,7 @@ TelemetryMainWindow::TelemetryMainWindow(int argc, char** argv, QWidget* parent)
      mDisplayFrameId(nullptr),
      mDisplayLinearAxis(nullptr),
      mDisplayAngularAxis(nullptr),
-     mDisplayDeadmanButton(nullptr),
+     mDisplayDeadmanAxis(nullptr),
      mDisplayTurboButton(nullptr),
      mDisplayPositionX(nullptr),
      mDisplayPositionY(nullptr),
@@ -68,12 +69,14 @@ TelemetryMainWindow::TelemetryMainWindow(int argc, char** argv, QWidget* parent)
    mDisplayLinearAxis =
       createDisplayValueWidget("Linear Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
 
+   mDisplayBrakeAxis =
+      createDisplayValueWidget("Brake Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
+
    mDisplayAngularAxis =
       createDisplayValueWidget("Angular Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
 
-   mDisplayDeadmanButton = createDisplayValueWidget("Deadman Button Pressed?",
-                                                    "<Unknown>",
-                                                    MainWindowRegion::Region_Joystick);
+   mDisplayDeadmanAxis =
+      createDisplayValueWidget("Deadman Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
 
    mDisplayTurboButton = createDisplayValueWidget("Turbo Button Pressed?",
                                                   "<Unknown>",
@@ -193,8 +196,9 @@ void TelemetryMainWindow::onJoystickMsgReceived(const sensor_msgs::Joy::ConstPtr
    {
       updateDoubleValue(mDisplayLinearAxis, joy_msg->axes[mLinearAxisIndex]);
       updateDoubleValue(mDisplayAngularAxis, joy_msg->axes[mAngularAxisIndex]);
+      updateDoubleValue(mDisplayBrakeAxis, joy_msg->axes[mBrakeAxisIndex]);
 
-      updateBooleanValue(mDisplayDeadmanButton, joy_msg->buttons[mDeadmanButtonIndex]);
+      updateDoubleValue(mDisplayDeadmanAxis, joy_msg->axes[mDeadmanAxisIndex]);
       updateBooleanValue(mDisplayTurboButton, joy_msg->buttons[mTurboButtonIndex]);
    }
 }
