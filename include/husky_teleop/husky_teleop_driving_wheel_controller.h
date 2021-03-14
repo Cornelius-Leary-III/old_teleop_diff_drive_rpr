@@ -45,8 +45,7 @@ private:
    int  mDeadmanPedalAxisIndex;
    bool mIsDeadmanRequired;
 
-   int  mBrakeAxisIndex;
-   bool mIsBrakeApplied;
+   int mBrakeAxisIndex;
 
    DrivingGearType mCurrentDrivingGear;
    int             mGearScalingFactor;

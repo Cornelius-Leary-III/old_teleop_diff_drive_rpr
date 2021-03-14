@@ -1,6 +1,14 @@
 #include "TelemetryMainWindow.h"
 #include "ui_TelemetryMainWindow.h"
 
+const int gDefaultSteeringAxisIndex     = 0;
+const int gDefaultDeadmanPedalAxisIndex = 1;
+const int gDefaultThrottleAxisIndex     = 2;
+const int gDefaultBrakeAxisIndex        = 3;
+// const int gDefaultForwardGearButtonIndex = 0;
+// const int gDefaultReverseGearButtonIndex = 3;
+const int gDefaultTurboButtonIndex = 1;
+
 Q_DECLARE_METATYPE(geometry_msgs::Twist::ConstPtr);
 Q_DECLARE_METATYPE(sensor_msgs::Joy::ConstPtr);
 Q_DECLARE_METATYPE(nav_msgs::Odometry::ConstPtr);
@@ -10,11 +18,11 @@ TelemetryMainWindow::TelemetryMainWindow(int argc, char** argv, QWidget* parent)
      mArgC(argc),
      mArgV(argv),
      mTelemetrySubscriberNode(new TelemetrySubscriberNode(argc, argv)),
-     mLinearAxisIndex(2),
-     mBrakeAxisIndex(3),
-     mAngularAxisIndex(0),
-     mDeadmanAxisIndex(1),
-     mTurboButtonIndex(1),
+     mLinearAxisIndex(gDefaultThrottleAxisIndex),
+     mBrakeAxisIndex(gDefaultBrakeAxisIndex),
+     mAngularAxisIndex(gDefaultSteeringAxisIndex),
+     mDeadmanAxisIndex(gDefaultDeadmanPedalAxisIndex),
+     mTurboButtonIndex(gDefaultTurboButtonIndex),
      mCurrentTwistMsg(),
      mCurrentJoyMsg(),
      mCurrentOdometryMsg(),
