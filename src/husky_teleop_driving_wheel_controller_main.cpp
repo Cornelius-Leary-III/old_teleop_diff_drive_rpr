@@ -1,5 +1,8 @@
 #include <husky_teleop/husky_teleop_driving_wheel_controller.h>
 
+#include <iostream>
+#include <ros/ros.h>
+
 int main(int argc, char** argv)
 {
    ros::init(argc, argv, "husky_teleop_driving_wheel_controller");

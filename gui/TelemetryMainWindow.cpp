@@ -68,76 +68,62 @@ TelemetryMainWindow::TelemetryMainWindow(int argc, char** argv, QWidget* parent)
            Qt::ConnectionType::QueuedConnection);
 
    mDisplayTimeStamp = createDisplayValueWidget("Current Time Stamp:",
-                                                "<Time>",
-                                                MainWindowRegion::Region_VehicleDetails);
+                                                MainWindowRegion::Region_VehicleDetails,
+                                                "<Time>");
 
-   mDisplayFrameId =
-      createDisplayValueWidget("Frame ID:", "<Unknown>", MainWindowRegion::Region_VehicleDetails);
+   mDisplayFrameId = createDisplayValueWidget("Frame ID:", MainWindowRegion::Region_VehicleDetails);
 
-   mDisplayLinearAxis =
-      createDisplayValueWidget("Linear Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
+   mDisplayLinearAxis = createDisplayValueWidget("Linear Axis:", MainWindowRegion::Region_Joystick);
 
-   mDisplayBrakeAxis =
-      createDisplayValueWidget("Brake Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
+   mDisplayBrakeAxis = createDisplayValueWidget("Brake Axis:", MainWindowRegion::Region_Joystick);
 
    mDisplayAngularAxis =
-      createDisplayValueWidget("Angular Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
+      createDisplayValueWidget("Angular Axis:", MainWindowRegion::Region_Joystick);
 
    mDisplayDeadmanAxis =
-      createDisplayValueWidget("Deadman Axis:", "<Unknown>", MainWindowRegion::Region_Joystick);
+      createDisplayValueWidget("Deadman Axis:", MainWindowRegion::Region_Joystick);
 
-   mDisplayTurboButton = createDisplayValueWidget("Turbo Button Pressed?",
-                                                  "<Unknown>",
-                                                  MainWindowRegion::Region_Joystick);
+   mDisplayTurboButton =
+      createDisplayValueWidget("Turbo Button Pressed?", MainWindowRegion::Region_Joystick);
 
    mDisplayPositionX =
-      createDisplayValueWidget("Current Position X:", "<Unknown>", MainWindowRegion::Region_Pose);
+      createDisplayValueWidget("Current Position X:", MainWindowRegion::Region_Pose);
 
    mDisplayPositionY =
-      createDisplayValueWidget("Current Position Y:", "<Unknown>", MainWindowRegion::Region_Pose);
+      createDisplayValueWidget("Current Position Y:", MainWindowRegion::Region_Pose);
 
    mDisplayPositionZ =
-      createDisplayValueWidget("Current Position Z:", "<Unknown>", MainWindowRegion::Region_Pose);
+      createDisplayValueWidget("Current Position Z:", MainWindowRegion::Region_Pose);
 
-   mDisplayOrientationX = createDisplayValueWidget("Current Orientation X:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Pose);
+   mDisplayOrientationX =
+      createDisplayValueWidget("Current Orientation X:", MainWindowRegion::Region_Pose);
 
-   mDisplayOrientationY = createDisplayValueWidget("Current Orientation Y:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Pose);
+   mDisplayOrientationY =
+      createDisplayValueWidget("Current Orientation Y:", MainWindowRegion::Region_Pose);
 
-   mDisplayOrientationZ = createDisplayValueWidget("Current Orientation Z:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Pose);
+   mDisplayOrientationZ =
+      createDisplayValueWidget("Current Orientation Z:", MainWindowRegion::Region_Pose);
 
-   mDisplayOrientationW = createDisplayValueWidget("Current Orientation W:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Pose);
+   mDisplayOrientationW =
+      createDisplayValueWidget("Current Orientation W:", MainWindowRegion::Region_Pose);
 
-   mDisplayTwistLinearX = createDisplayValueWidget("Current Twist Linear X:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Twist);
+   mDisplayTwistLinearX =
+      createDisplayValueWidget("Current Twist Linear X:", MainWindowRegion::Region_Twist);
 
-   mDisplayTwistLinearY = createDisplayValueWidget("Current Twist Linear Y:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Twist);
+   mDisplayTwistLinearY =
+      createDisplayValueWidget("Current Twist Linear Y:", MainWindowRegion::Region_Twist);
 
-   mDisplayTwistLinearZ = createDisplayValueWidget("Current Twist Linear Z:",
-                                                   "<Unknown>",
-                                                   MainWindowRegion::Region_Twist);
+   mDisplayTwistLinearZ =
+      createDisplayValueWidget("Current Twist Linear Z:", MainWindowRegion::Region_Twist);
 
-   mDisplayTwistAngularX = createDisplayValueWidget("Current Twist Angular X:",
-                                                    "<Unknown>",
-                                                    MainWindowRegion::Region_Twist);
+   mDisplayTwistAngularX =
+      createDisplayValueWidget("Current Twist Angular X:", MainWindowRegion::Region_Twist);
 
-   mDisplayTwistAngularY = createDisplayValueWidget("Current Twist Angular Y:",
-                                                    "<Unknown>",
-                                                    MainWindowRegion::Region_Twist);
+   mDisplayTwistAngularY =
+      createDisplayValueWidget("Current Twist Angular Y:", MainWindowRegion::Region_Twist);
 
-   mDisplayTwistAngularZ = createDisplayValueWidget("Current Twist Angular Z:",
-                                                    "<Unknown>",
-                                                    MainWindowRegion::Region_Twist);
+   mDisplayTwistAngularZ =
+      createDisplayValueWidget("Current Twist Angular Z:", MainWindowRegion::Region_Twist);
 
    mBooleanTextMap.insert(false, "FALSE");
    mBooleanTextMap.insert(true, "TRUE");
@@ -202,48 +188,62 @@ void TelemetryMainWindow::onJoystickMsgReceived(const sensor_msgs::Joy::ConstPtr
 
    if (joy_msg != nullptr)
    {
-      updateDoubleValue(mDisplayLinearAxis, joy_msg->axes[mLinearAxisIndex]);
-      updateDoubleValue(mDisplayAngularAxis, joy_msg->axes[mAngularAxisIndex]);
-      updateDoubleValue(mDisplayBrakeAxis, joy_msg->axes[mBrakeAxisIndex]);
+      updateJoyAxisValue(mDisplayLinearAxis, mLinearAxisIndex);
+      updateJoyAxisValue(mDisplayAngularAxis, mAngularAxisIndex);
+      updateJoyAxisValue(mDisplayBrakeAxis, mBrakeAxisIndex);
+      updateJoyAxisValue(mDisplayDeadmanAxis, mDeadmanAxisIndex);
+      updateJoyButtonValue(mDisplayTurboButton, mTurboButtonIndex);
+   }
+}
 
-      updateDoubleValue(mDisplayDeadmanAxis, joy_msg->axes[mDeadmanAxisIndex]);
-      updateBooleanValue(mDisplayTurboButton, joy_msg->buttons[mTurboButtonIndex]);
+void TelemetryMainWindow::updateJoyAxisValue(DisplayValue* widget, int axis_index)
+{
+   if (isAxisIndexValid(axis_index))
+   {
+      updateDoubleValue(widget, mCurrentJoyMsg.axes.at(axis_index));
+   }
+}
+
+void TelemetryMainWindow::updateJoyButtonValue(DisplayValue* widget, int button_index)
+{
+   if (isButtonIndexValid(button_index))
+   {
+      updateBooleanValue(widget, mCurrentJoyMsg.buttons.at(button_index));
    }
 }
 
 void TelemetryMainWindow::updateDoubleValue(DisplayValue* widget, double value)
 {
-   if (widget != nullptr)
-   {
-      auto value_text = QString::number(value);
+   auto value_text = QString::number(value);
 
-      widget->setFieldValue(value_text);
-   }
+   updateField(widget, value_text);
 }
 
 void TelemetryMainWindow::updateBooleanValue(DisplayValue* widget, bool flag)
 {
-   if (widget != nullptr)
-   {
-      QString value_text = mBooleanTextMap.value(flag, "FALSE");
+   QString value_text = mBooleanTextMap.value(flag, "FALSE");
 
-      widget->setFieldValue(value_text);
-   }
+   updateField(widget, value_text);
 }
 
 void TelemetryMainWindow::updateStringValue(DisplayValue* widget, const std::string& value)
 {
+   auto value_text = QString::fromStdString(value);
+
+   updateField(widget, value_text);
+}
+
+void TelemetryMainWindow::updateField(DisplayValue* widget, const QString& field_value)
+{
    if (widget != nullptr)
    {
-      auto value_text = QString::fromStdString(value);
-
-      widget->setFieldValue(value_text);
+      widget->setFieldValue(field_value);
    }
 }
 
 DisplayValue* TelemetryMainWindow::createDisplayValueWidget(const QString&   field_name,
-                                                            const QString&   initial_value,
-                                                            MainWindowRegion region)
+                                                            MainWindowRegion region,
+                                                            const QString&   initial_value)
 {
    auto display_widget = new DisplayValue(nullptr);
 
@@ -279,4 +279,14 @@ DisplayValue* TelemetryMainWindow::createDisplayValueWidget(const QString&   fie
    layout->addWidget(display_widget);
 
    return display_widget;
+}
+
+bool TelemetryMainWindow::isAxisIndexValid(int index)
+{
+   return static_cast<size_t>(index) < mCurrentJoyMsg.axes.size();
+}
+
+bool TelemetryMainWindow::isButtonIndexValid(int index)
+{
+   return static_cast<size_t>(index) < mCurrentJoyMsg.buttons.size();
 }

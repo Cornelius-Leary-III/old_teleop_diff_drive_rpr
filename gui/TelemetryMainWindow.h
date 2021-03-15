@@ -36,12 +36,19 @@ private:
    };
 
    DisplayValue* createDisplayValueWidget(const QString&   field_name,
-                                          const QString&   initial_value,
-                                          MainWindowRegion region);
+                                          MainWindowRegion region,
+                                          const QString&   initial_value = "<Unknown>");
 
    void updateDoubleValue(DisplayValue* widget, double value);
    void updateBooleanValue(DisplayValue* widget, bool value);
    void updateStringValue(DisplayValue* widget, const std::string& value);
+   void updateField(DisplayValue* widget, const QString& field_value);
+
+   void updateJoyAxisValue(DisplayValue* widget, int axis_index);
+   void updateJoyButtonValue(DisplayValue* widget, int button_index);
+
+   bool isAxisIndexValid(int index);
+   bool isButtonIndexValid(int index);
 
    QMap<bool, QString> mBooleanTextMap;
 
