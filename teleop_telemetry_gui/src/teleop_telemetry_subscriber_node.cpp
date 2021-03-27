@@ -1,4 +1,4 @@
-#include <teleop_telemetry_gui/husky_teleop_telemetry_subscriber_node.h>
+#include <teleop_telemetry_gui/teleop_telemetry_subscriber_node.h>
 
 TelemetrySubscriberNode::TelemetrySubscriberNode(int argc, char** argv, QObject* parent)
    : QThread(parent),
@@ -55,4 +55,4 @@ void TelemetrySubscriberNode::odomMsgCallback(const nav_msgs::Odometry::ConstPtr
    emit odometryMsgReceived(odometry_msg);
 }
 
-#include "husky_teleop_telemetry_subscriber_node.moc"
+#include "teleop_telemetry_subscriber_node.moc"

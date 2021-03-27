@@ -122,11 +122,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(husky_teleop_basic
-    src/husky_teleop_basic.cpp
-    src/husky_teleop_basic_main.cpp)
+add_executable(teleop_basic
+    src/teleop_basic.cpp
+    src/teleop_basic_main.cpp)
 
-target_link_libraries(husky_teleop_basic
+target_link_libraries(teleop_basic
     ${catkin_LIBRARIES})
 
 ## Declare a C++ library

@@ -1,5 +1,5 @@
-#ifndef HUSKY_TELEOP_TURBO_H
-#define HUSKY_TELEOP_TURBO_H
+#ifndef TELEOP_TURBO_H
+#define TELEOP_TURBO_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
@@ -42,4 +42,4 @@ private:
    sensor_msgs::Joy mCurrentJoyMsg;
 };
 
-#endif // HUSKY_TELEOP_TURBO_H
+#endif // TELEOP_TURBO_H

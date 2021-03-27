@@ -1,4 +1,4 @@
-#include <teleop_deadman/husky_teleop_deadman.h>
+#include <teleop_deadman/teleop_deadman.h>
 
 TeleopNodeDeadman::TeleopNodeDeadman(ros::NodeHandle* node_handle, const std::string& twist_topic)
    : mNodeHandle(*node_handle),

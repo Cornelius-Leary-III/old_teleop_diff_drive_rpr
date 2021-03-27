@@ -1,4 +1,4 @@
-#include <teleop_smooth/husky_teleop_smooth.h>
+#include <teleop_smooth/teleop_smooth.h>
 
 SmoothTeleopNode::SmoothTeleopNode(ros::NodeHandle* node_handle, const std::string& twist_topic)
    : mNodeHandle(*node_handle),

@@ -1,4 +1,4 @@
-#include <teleop_basic/husky_teleop_basic.h>
+#include <teleop_basic/teleop_basic.h>
 
 TeleopNode::TeleopNode(ros::NodeHandle* node_handle, const std::string& twist_topic)
    : mNodeHandle(*node_handle),

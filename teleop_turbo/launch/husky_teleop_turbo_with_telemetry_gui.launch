@@ -22,14 +22,14 @@
     <param name="scale_turbo" value="1.5" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="teleop_turbo" type="husky_teleop_turbo" name="teleop_turbo">
+    <node pkg="teleop_turbo" type="teleop_turbo" name="teleop_turbo">
         <param name="turbo_allowed" type="bool" value="$(arg use_turbo)" />
         <param name="deadman_required" type="bool" value="$(arg use_deadman)" />
     </node>
 
     <!-- Teleop Telemetry GUI Node -->
     <node pkg="teleop_telemetry_gui"
-          type="husky_teleop_telemetry_gui"
+          type="teleop_telemetry_gui"
           name="teleop_telemetry_gui"
           if="$(arg with_telemetry_gui)" />
 

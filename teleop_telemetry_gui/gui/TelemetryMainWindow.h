@@ -6,7 +6,7 @@
 #include "DisplayValue.h"
 #include "ui_DisplayValue.h"
 
-#include <teleop_telemetry_gui/husky_teleop_telemetry_subscriber_node.h>
+#include <teleop_telemetry_gui/teleop_telemetry_subscriber_node.h>
 
 namespace Ui
 {

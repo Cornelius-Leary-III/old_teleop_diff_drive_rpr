@@ -17,7 +17,7 @@
 
     <!-- Teleop Node -->
     <node pkg="teleop_driving_wheel_controller"
-          type="husky_teleop_driving_wheel_controller"
+          type="teleop_driving_wheel_controller"
           name="teleop_driving_wheel_controller">
 
         <param name="axis_steering" value="0" type="int"/>
@@ -34,7 +34,7 @@
 
     <!-- Teleop Telemetry GUI Node -->
     <node pkg="teleop_telemetry_gui"
-          type="husky_teleop_telemetry_gui"
+          type="teleop_telemetry_gui"
           name="teleop_telemetry_gui"
           if="$(arg with_telemetry_gui)" />
 

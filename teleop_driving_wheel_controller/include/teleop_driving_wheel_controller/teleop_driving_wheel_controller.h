@@ -1,5 +1,5 @@
-#ifndef HUSKY_TELEOP_DRIVING_WHEEL_CONTROLLER_H
-#define HUSKY_TELEOP_DRIVING_WHEEL_CONTROLLER_H
+#ifndef TELEOP_DRIVING_WHEEL_CONTROLLER_H
+#define TELEOP_DRIVING_WHEEL_CONTROLLER_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
@@ -69,4 +69,4 @@ private:
 };
 } // namespace Teleop
 
-#endif // HUSKY_TELEOP_DRIVING_WHEEL_CONTROLLER_H
+#endif // TELEOP_DRIVING_WHEEL_CONTROLLER_H

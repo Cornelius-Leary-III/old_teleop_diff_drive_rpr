@@ -7,12 +7,12 @@
 
 int main(int argc, char** argv)
 {
-   QApplication husky_teleop_gui_app(argc, argv);
+   QApplication teleop_gui_app(argc, argv);
 
    TelemetryMainWindow telemetry_gui_main_window(argc, argv);
    telemetry_gui_main_window.show();
 
-   husky_teleop_gui_app.exec();
+   teleop_gui_app.exec();
 
    return 0;
 }

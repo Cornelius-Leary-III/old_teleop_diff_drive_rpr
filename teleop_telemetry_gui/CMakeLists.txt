@@ -127,20 +127,20 @@ include_directories(
 )
 
 set(UI_Sources
-    src/husky_teleop_telemetry_subscriber_node_main.cpp
+    src/teleop_telemetry_subscriber_node_main.cpp
     gui/DisplayValue.cpp
     gui/DisplayValue.ui
     gui/TelemetryMainWindow.cpp
     gui/TelemetryMainWindow.ui
     )
 
-add_executable(husky_teleop_telemetry_gui
-    include/teleop_telemetry_gui/husky_teleop_telemetry_subscriber_node.h
-    src/husky_teleop_telemetry_subscriber_node.cpp
+add_executable(teleop_telemetry_gui
+    include/teleop_telemetry_gui/teleop_telemetry_subscriber_node.h
+    src/teleop_telemetry_subscriber_node.cpp
     ${UI_Sources}
     )
 
-target_link_libraries(husky_teleop_telemetry_gui
+target_link_libraries(teleop_telemetry_gui
     ${catkin_LIBRARIES}
     Qt5::Core
     Qt5::Widgets

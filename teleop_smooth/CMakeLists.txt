@@ -122,11 +122,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(husky_teleop_smooth
-    src/husky_teleop_smooth.cpp
-    src/husky_teleop_smooth_main.cpp)
+add_executable(teleop_smooth
+    src/teleop_smooth.cpp
+    src/teleop_smooth_main.cpp)
 
-target_link_libraries(husky_teleop_smooth
+target_link_libraries(teleop_smooth
     ${catkin_LIBRARIES})
 
 ## Declare a C++ library

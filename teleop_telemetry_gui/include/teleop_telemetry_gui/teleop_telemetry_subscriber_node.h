@@ -1,5 +1,5 @@
-#ifndef HUSKY_TELEOP_GUI_H
-#define HUSKY_TELEOP_GUI_H
+#ifndef TELEOP_GUI_H
+#define TELEOP_GUI_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
@@ -41,4 +41,4 @@ private:
    ros::Subscriber mOdometrySubscriber;
 };
 
-#endif // HUSKY_TELEOP_GUI_H
+#endif // TELEOP_GUI_H

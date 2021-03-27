@@ -122,11 +122,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(husky_teleop_driving_wheel_controller
-    src/husky_teleop_driving_wheel_controller.cpp
-    src/husky_teleop_driving_wheel_controller_main.cpp)
+add_executable(teleop_driving_wheel_controller
+    src/teleop_driving_wheel_controller.cpp
+    src/teleop_driving_wheel_controller_main.cpp)
 
-target_link_libraries(husky_teleop_driving_wheel_controller
+target_link_libraries(teleop_driving_wheel_controller
     ${catkin_LIBRARIES})
 
 ## Declare a C++ library

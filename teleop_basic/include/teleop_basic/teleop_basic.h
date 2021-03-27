@@ -1,5 +1,5 @@
-#ifndef HUSKY_TELEOP_BASIC_H
-#define HUSKY_TELEOP_BASIC_H
+#ifndef TELEOP_BASIC_H
+#define TELEOP_BASIC_H
 
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
@@ -28,4 +28,4 @@ private:
    ros::Subscriber mJoySubscriber;
 };
 
-#endif // HUSKY_TELEOP_BASIC_H
+#endif // TELEOP_BASIC_H
