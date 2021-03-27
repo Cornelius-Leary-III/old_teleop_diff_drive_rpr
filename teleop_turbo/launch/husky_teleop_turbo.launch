@@ -17,5 +17,5 @@
     <param name="scale_turbo" value="1.5" type="double"/>
 
     <!-- Teleop Node -->
-    <node pkg="husky_teleop" type="husky_teleop_turbo" name="teleop_turbo"/>
+    <node pkg="teleop_turbo" type="husky_teleop_turbo" name="teleop_turbo"/>
 </launch>
