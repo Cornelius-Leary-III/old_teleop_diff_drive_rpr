@@ -86,14 +86,14 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
    }
 
    double current_throttle   = readThrottle();
-   mCurrentTwistMsg.linear.x = mScaleLinear * current_throttle * mGearScalingFactor;
-
    if (current_throttle <= gThrottleActiveThreshold)
    {
       mCurrentTwistMsg.linear.x  = 0.0;
       mCurrentTwistMsg.angular.z = 0.0;
       return;
    }
+
+   mCurrentTwistMsg.linear.x = mScaleLinear * current_throttle * mGearScalingFactor;
 
    if (isTurboModeActive())
    {
