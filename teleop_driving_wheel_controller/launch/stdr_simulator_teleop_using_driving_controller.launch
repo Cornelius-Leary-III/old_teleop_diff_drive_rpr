@@ -24,7 +24,7 @@
         <param name="axis_brake_pedal" value="3" type="int"/>
         <param name="axis_throttle" value="2" type="int"/>
         <param name="scale_linear" value="1" type="double"/>
-        <param name="scale_angular" value="0.75" type="double"/>
+        <param name="scale_angular" value="0.25" type="double"/>
         <param name="scale_turbo" value="1.5" type="double"/>
         <param name="axis_deadman" value="1" type="int"/>
         <param name="deadman_required" type="bool" value="$(arg use_deadman)" />
