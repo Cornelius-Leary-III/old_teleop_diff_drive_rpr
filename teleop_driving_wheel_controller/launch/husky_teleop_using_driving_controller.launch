@@ -1,6 +1,6 @@
 <launch>
     <!-- Launch Arguments -->
-    <arg name="joy_dev_input" default="/dev/input/js2" />
+    <arg name="joy_dev_input" default="/dev/input/js1" />
     <arg name="use_deadman" default="true" />
     <arg name="use_turbo" default="true" />
     <arg name="with_telemetry_gui" default="true" />
