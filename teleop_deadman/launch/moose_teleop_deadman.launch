@@ -1,0 +1,21 @@
+<launch>
+    <!-- Moose Gazebo Launch File -->
+    <include file="$(find moose_gazebo)/launch/moose_world.launch">
+
+    </include>
+
+    <!-- joy Node -->
+    <node respawn="true" pkg="joy" type="joy_node" name="moose_joy">
+        <param name="dev" type="string" value="/dev/input/js1"/>
+        <param name="deadzone" value="0.12"/>
+    </node>
+
+    <!-- Axes -->
+    <param name="axis_linear" value="1" type="int"/>
+    <param name="axis_angular" value="2" type="int"/>
+    <param name="scale_linear" value="20" type="double"/>
+    <param name="scale_angular" value="0.75" type="double"/>
+
+    <!-- Teleop Node -->
+    <node pkg="teleop_deadman" type="teleop_deadman" name="teleop_deadman"/>
+</launch>
