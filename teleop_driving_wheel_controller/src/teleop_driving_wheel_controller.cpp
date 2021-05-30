@@ -11,27 +11,27 @@ const double gDefaultTurboScale             = 1.5;
 const double gThrottleActiveThreshold       = 0.2;
 const double gBrakeActiveThreshold          = 0.2;
 const double gDeadmanActiveThreshold        = 0.0;
-const int    gDefaultSteeringAxisIndex      = 0;
-const int    gDefaultDeadmanPedalAxisIndex  = 1;
-const int    gDefaultThrottleAxisIndex      = 2;
-const int    gDefaultBrakeAxisIndex         = 3;
-const int    gDefaultForwardGearButtonIndex = 0;
-const int    gDefaultReverseGearButtonIndex = 3;
-const int    gDefaultTurboButtonIndex       = 1;
+const int    gSteeringAxisIndexDefault      = 0;
+const int    gDeadmanPedalAxisIndexDefault  = 1;
+const int    gThrottleAxisIndexDefault      = 2;
+const int    gBrakeAxisIndexDefault         = 3;
+const int    gForwardGearButtonIndexDefault = 0;
+const int    gReverseGearButtonIndexDefault = 3;
+const int    gTurboButtonIndexDefault       = 1;
 const double gGearScalingFactorMagnitude    = 1.0;
 
 DrivingWheelControllerNode::DrivingWheelControllerNode(ros::NodeHandle* node_handle)
    : mNodeHandle(*node_handle),
-     mSteeringAxisIndex(gDefaultSteeringAxisIndex),
-     mDeadmanPedalAxisIndex(gDefaultDeadmanPedalAxisIndex),
+     mSteeringAxisIndex(gSteeringAxisIndexDefault),
+     mDeadmanPedalAxisIndex(gDeadmanPedalAxisIndexDefault),
      mIsDeadmanRequired(false),
-     mBrakeAxisIndex(gDefaultBrakeAxisIndex),
+     mBrakeAxisIndex(gBrakeAxisIndexDefault),
      mCurrentDrivingGear(DrivingGearType::FORWARD),
      mGearScalingFactor(gGearScalingFactorMagnitude),
-     mForwardGearButtonIndex(gDefaultForwardGearButtonIndex),
-     mReverseGearButtonIndex(gDefaultReverseGearButtonIndex),
-     mThrottleAxisIndex(gDefaultThrottleAxisIndex),
-     mTurboButtonIndex(gDefaultTurboButtonIndex),
+     mForwardGearButtonIndex(gForwardGearButtonIndexDefault),
+     mReverseGearButtonIndex(gReverseGearButtonIndexDefault),
+     mThrottleAxisIndex(gThrottleAxisIndexDefault),
+     mTurboButtonIndex(gTurboButtonIndexDefault),
      mIsTurboPressed(false),
      mIsTurboAllowed(false),
      mScaleTurbo(gDefaultTurboScale),
@@ -85,7 +85,7 @@ void DrivingWheelControllerNode::joyMsgCallback(const sensor_msgs::Joy::ConstPtr
       return;
    }
 
-   double current_throttle   = readThrottle();
+   double current_throttle = readThrottle();
    if (current_throttle <= gThrottleActiveThreshold)
    {
       mCurrentTwistMsg.linear.x  = 0.0;
